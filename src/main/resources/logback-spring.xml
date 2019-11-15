@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- scan属性未true时，如果配置文档发生改变将会进行重新加载 -->
+<!-- scanPeriod属性设置监测配置文件修改的时间间隔，默认单位为毫秒，在scan为true时才生效 -->
+<!-- debug属性如果为true时，会打印出logback内部的日志信息 -->
+<configuration>
+    <!-- 定义参数常量 -->
+    <!-- 项目名 -->
+    <property name="APP_NAME" value="rbca-demo" />
+    <!-- 文件保留时间 30天-->
+    <property name="LOG_MAX_HISTORY" value="30" />
+
+    <!-- 日志的显式格式 -->
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) --- [%15.15thread]  %cyan(%-40.40logger{39}) : %m%n"></property>
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%15.15thread] %-40.40logger{39} : %m%n"></property>
+
+    <!-- 日志存储路径 -->
+    <springProfile name="default">
+        <property name="LOG_HOME" value="d:/logs" />
+        <property name="LOG_PATTERN" value="${FILE_LOG_PATTERN}"/>
+    </springProfile>
+    <springProfile name="prod">
+        <property name="LOG_HOME" value="/home/apache-tomcat-8.5.39/logs" />
+        <property name="LOG_PATTERN" value="${CONSOLE_LOG_PATTERN}"/>
+    </springProfile>
+
+
+    <!-- 用于说明输出介质，此处说明控制台输出 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 类似于layout，除了将时间转化为数组，还会将转换后的数组输出到相应的文件中 -->
+        <encoder>
+            <!-- 定义日志的输出格式 -->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- INFO，表示文件随着时间的推移按时间生成日志文件 -->
+    <appender name="infoAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 文件路径 -->
+        <file>${LOG_HOME}/${APP_NAME}/info.log</file>
+        <!-- 滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 设置文件名称 -->
+            <fileNamePattern>
+                ${LOG_HOME}/${APP_NAME}/info/info.%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <!-- 设置最大文件的大小，默认为10MB -->
+            <maxFileSize>5MB</maxFileSize>
+            <!-- 设置最大保存周期 -->
+            <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <!-- 不记录日志等级为DEBUG的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>DENY</onMatch>
+        </filter>
+    </appender>
+
+    <!-- ERROR，表示文件随着时间的推移按时间生成日志文件 -->
+    <appender name="errorAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 文件路径 -->
+        <file>${LOG_HOME}/${APP_NAME}/error.log</file>
+        <!-- 滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 设置文件名称 -->
+            <fileNamePattern>
+                ${LOG_HOME}/${APP_NAME}/error/error.%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <!-- 设置最大文件的大小，默认为10MB -->
+            <maxFileSize>5MB</maxFileSize>
+            <!-- 设置最大保存周期 -->
+            <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <!-- 只记录日志等级为ERROR的日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 用于存放日志对象，同时指定关联的package位置 -->
+    <!-- name指定关联的package -->
+    <!-- level表明指记录哪个日志级别以上的日志 -->
+    <!-- appender-ref指定logger向哪个文件输出日志信息 -->
+    <!-- additivity为true时，logger会把根logger的日志输出地址加入进来，但logger水平不依赖于根logger -->
+
+    <!-- 特殊的logger，根logger -->
+    <root level="info">
+        <!-- 指定默认的日志输出 -->
+        <appender-ref ref="consoleAppender" />
+        <appender-ref ref="infoAppender" />
+        <appender-ref ref="errorAppender" />
+    </root>
+
+</configuration>

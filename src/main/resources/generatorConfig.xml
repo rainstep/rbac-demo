@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<context id="context1">
+		<plugin type="com.xxg.mybatis.plugins.MySQLLimitPlugin"></plugin>
+
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+
+		<jdbcConnection connectionURL="jdbc:mysql://127.0.01/rbac" driverClass="com.mysql.jdbc.Driver" userId="root" password="123456" />
+		<javaModelGenerator targetPackage="com.rainstep.rbacdemo.entity" targetProject="src/main/java" />
+		<sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources" />
+
+		<!-- 对于mybatis来说，即生成Mapper接口，注意，如果没有配置该元素，那么默认不会生成Mapper接口
+        targetPackage/targetProject:同javaModelGenerator
+        type：选择怎么生成mapper接口（在MyBatis3/MyBatis3Simple下）：
+            1，ANNOTATEDMAPPER：会生成使用Mapper接口+Annotation的方式创建（SQL生成在annotation中），不会生成对应的XML；
+            2，MIXEDMAPPER：使用混合配置，会生成Mapper接口，并适当添加合适的Annotation，但是XML会生成在XML中；
+            3，XMLMAPPER：会生成Mapper接口，接口完全依赖XML；
+        注意，如果context是MyBatis3Simple：只支持ANNOTATEDMAPPER和XMLMAPPER
+		-->
+		<javaClientGenerator targetPackage="com.rainstep.rbacdemo.dao.mapper" targetProject="src/main/java" type="XMLMAPPER" />
+
+		<table tableName="user">
+			<generatedKey column="user_id" sqlStatement="MySql" identity="true"/>
+		</table>
+
+		<table tableName="role">
+			<generatedKey column="role_id" sqlStatement="MySql" identity="true"/>
+		</table>
+
+		<table tableName="permission">
+			<generatedKey column="permission_id" sqlStatement="MySql" identity="true"/>
+		</table>
+
+		<table tableName="resource">
+			<generatedKey column="resource_id" sqlStatement="MySql" identity="true"/>
+		</table>
+
+		<table tableName="user_role">
+			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
+		</table>
+
+		<table tableName="role_permission">
+			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
+		</table>
+
+	</context>
+</generatorConfiguration>
