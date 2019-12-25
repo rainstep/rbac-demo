@@ -1,7 +1,9 @@
 package com.example.rbacdemo.entity;
 
+import java.util.Date;
+
 public class User {
-    private Long userId;
+    private Integer userId;
 
     private String userName;
 
@@ -11,11 +13,13 @@ public class User {
 
     private String pwdSalt;
 
-    public Long getUserId() {
+    private Date createTime;
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -49,5 +53,13 @@ public class User {
 
     public void setPwdSalt(String pwdSalt) {
         this.pwdSalt = pwdSalt;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

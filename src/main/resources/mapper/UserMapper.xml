@@ -2,11 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.rbacdemo.dao.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="com.example.rbacdemo.entity.User">
-    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="pwd_salt" jdbcType="VARCHAR" property="pwdSalt" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, user_name, account, password, pwd_salt
+    user_id, user_name, account, password, pwd_salt, create_time
   </sql>
   <select id="selectByExample" parameterType="com.example.rbacdemo.entity.UserExample" resultMap="BaseResultMap">
     select
@@ -91,15 +92,15 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
-    where user_id = #{userId,jdbcType=BIGINT}
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
-    where user_id = #{userId,jdbcType=BIGINT}
+    where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.example.rbacdemo.entity.UserExample">
     delete from user
@@ -108,16 +109,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.example.rbacdemo.entity.User">
-    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Long">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user (user_name, account, password, 
-      pwd_salt)
+      pwd_salt, create_time)
     values (#{userName,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{pwdSalt,jdbcType=VARCHAR})
+      #{pwdSalt,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.example.rbacdemo.entity.User">
-    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Long">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into user
@@ -134,6 +135,9 @@
       <if test="pwdSalt != null">
         pwd_salt,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userName != null">
@@ -148,6 +152,9 @@
       <if test="pwdSalt != null">
         #{pwdSalt,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.example.rbacdemo.entity.UserExample" resultType="java.lang.Long">
@@ -160,7 +167,7 @@
     update user
     <set>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=BIGINT},
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.userName != null">
         user_name = #{record.userName,jdbcType=VARCHAR},
@@ -174,6 +181,9 @@
       <if test="record.pwdSalt != null">
         pwd_salt = #{record.pwdSalt,jdbcType=VARCHAR},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -181,11 +191,12 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update user
-    set user_id = #{record.userId,jdbcType=BIGINT},
+    set user_id = #{record.userId,jdbcType=INTEGER},
       user_name = #{record.userName,jdbcType=VARCHAR},
       account = #{record.account,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
-      pwd_salt = #{record.pwdSalt,jdbcType=VARCHAR}
+      pwd_salt = #{record.pwdSalt,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -205,15 +216,20 @@
       <if test="pwdSalt != null">
         pwd_salt = #{pwdSalt,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
-    where user_id = #{userId,jdbcType=BIGINT}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.example.rbacdemo.entity.User">
     update user
     set user_name = #{userName,jdbcType=VARCHAR},
       account = #{account,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      pwd_salt = #{pwdSalt,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=BIGINT}
+      pwd_salt = #{pwdSalt,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
 </mapper>

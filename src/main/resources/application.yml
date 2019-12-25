@@ -1,6 +1,6 @@
 
 server:
-  port: 9999
+  port: 9910
   servlet:
     context-path: /rbac
 
@@ -10,5 +10,14 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/rbac?useUnicode=true&useSSL=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+# mybatis
+mybatis:
+  mapper-locations: mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true # 下划线转驼峰
 
 

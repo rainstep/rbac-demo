@@ -10,8 +10,8 @@
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
 
-		<jdbcConnection connectionURL="jdbc:mysql://127.0.01/rbac" driverClass="com.mysql.jdbc.Driver" userId="root" password="123456" />
-		<javaModelGenerator targetPackage="com.rainstep.rbacdemo.entity" targetProject="src/main/java" />
+		<jdbcConnection connectionURL="jdbc:mysql://127.0.01/rbac?useSSL=true" driverClass="com.mysql.jdbc.Driver" userId="root" password="123456" />
+		<javaModelGenerator targetPackage="com.example.rbacdemo.entity" targetProject="src/main/java" />
 		<sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources" />
 
 		<!-- 对于mybatis来说，即生成Mapper接口，注意，如果没有配置该元素，那么默认不会生成Mapper接口
@@ -22,31 +22,31 @@
             3，XMLMAPPER：会生成Mapper接口，接口完全依赖XML；
         注意，如果context是MyBatis3Simple：只支持ANNOTATEDMAPPER和XMLMAPPER
 		-->
-		<javaClientGenerator targetPackage="com.rainstep.rbacdemo.dao.mapper" targetProject="src/main/java" type="XMLMAPPER" />
+		<javaClientGenerator targetPackage="com.example.rbacdemo.dao.mapper" targetProject="src/main/java" type="XMLMAPPER" />
 
-		<table tableName="user">
-			<generatedKey column="user_id" sqlStatement="MySql" identity="true"/>
-		</table>
+<!--		<table tableName="user">-->
+<!--			<generatedKey column="user_id" sqlStatement="MySql" identity="true"/>-->
+<!--		</table>-->
 
-		<table tableName="role">
-			<generatedKey column="role_id" sqlStatement="MySql" identity="true"/>
-		</table>
+<!--		<table tableName="role">-->
+<!--			<generatedKey column="role_id" sqlStatement="MySql" identity="true"/>-->
+<!--		</table>-->
 
-		<table tableName="permission">
-			<generatedKey column="permission_id" sqlStatement="MySql" identity="true"/>
-		</table>
+<!--		<table tableName="permission">-->
+<!--			<generatedKey column="permission_id" sqlStatement="MySql" identity="true"/>-->
+<!--		</table>-->
 
-		<table tableName="resource">
-			<generatedKey column="resource_id" sqlStatement="MySql" identity="true"/>
-		</table>
+<!--		<table tableName="resource">-->
+<!--			<generatedKey column="resource_id" sqlStatement="MySql" identity="true"/>-->
+<!--		</table>-->
 
-		<table tableName="user_role">
-			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
-		</table>
+<!--		<table tableName="user_role">-->
+<!--			<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--		</table>-->
 
-		<table tableName="role_permission">
-			<generatedKey column="id" sqlStatement="MySql" identity="true"/>
-		</table>
+<!--		<table tableName="role_permission">-->
+<!--			<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+<!--		</table>-->
 
 	</context>
 </generatorConfiguration>

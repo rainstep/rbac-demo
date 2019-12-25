@@ -21,7 +21,7 @@ public class RegexUtils {
     /**
      * 账号以字母、下划线开头，只允许字母、数字和下划线，最少6位长度。
      */
-    public static final String ACCOUNT_REGEX = "^[A-Za-b_]+\\w{5,}";
+    public static final String ACCOUNT_REGEX = "^[A-Za-z_]+\\w{5,}";
 
     /**
      * 密码只允许字母、数字和下划线，最少6位长度。
