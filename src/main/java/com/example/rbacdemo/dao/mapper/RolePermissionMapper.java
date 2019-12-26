@@ -4,7 +4,9 @@ import com.example.rbacdemo.entity.RolePermission;
 import com.example.rbacdemo.entity.RolePermissionExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface RolePermissionMapper {
     long countByExample(RolePermissionExample example);
 

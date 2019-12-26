@@ -3,7 +3,7 @@ package com.example.rbacdemo.entity;
 public class UserRole {
     private Integer id;
 
-    private Long userId;
+    private Integer userId;
 
     private Integer roleId;
 
@@ -15,11 +15,11 @@ public class UserRole {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

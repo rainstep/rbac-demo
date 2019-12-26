@@ -15,7 +15,9 @@ public interface UserService {
 
     Result<User> add(String account, String userName, String password);
 
-    Result<User> update(int userId, String account, String userName, String password);
+    Result<User> modify(int userId, String account, String userName, String password);
 
     Result delete(int userId);
+
+    Result batchDelete(Integer[] userIds);
 }

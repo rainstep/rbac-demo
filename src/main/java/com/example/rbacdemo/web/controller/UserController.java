@@ -43,11 +43,17 @@ public class UserController {
 
     @PostMapping("/modify")
     public Result modify(int userId, String account, String userName, String password) {
-        return userService.update(userId, account, userName, password);
+        return userService.modify(userId, account, userName, password);
     }
 
     @PostMapping("/delete")
     public Result delete(int userId) {
         return userService.delete(userId);
     }
+
+    @PostMapping("batchDelete")
+    public Result batchDelete(Integer[] userIds) {
+        return userService.batchDelete(userIds);
+    }
+
 }

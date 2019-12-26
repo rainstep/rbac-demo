@@ -1,5 +1,6 @@
 package com.example.rbacdemo.common.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListUtils {
@@ -20,4 +21,20 @@ public class ListUtils {
         return org.apache.commons.collections4.ListUtils.intersection(list1, list2);
     }
 
+    public static <E> boolean isEmpty(List<? extends E> list) {
+        return list == null || list.size() == 0;
+    }
+
+    public static <E> boolean isNotEmpty(List<? extends E> list) {
+        return list != null && list.size() > 0;
+    }
+
+    public static <T> List<T> arrayToList(T[] arr) {
+        if (arr == null) return null;
+        List<T> list = new ArrayList<>(arr.length);
+        for (T t : arr) {
+            list.add(t);
+        }
+        return list;
+    }
 }

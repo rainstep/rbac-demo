@@ -1,6 +1,7 @@
 package com.example.rbacdemo.dao.impl;
 
 import com.example.rbacdemo.common.PageData;
+import com.example.rbacdemo.common.util.ListUtils;
 import com.example.rbacdemo.common.util.PageUtils;
 import com.example.rbacdemo.common.util.StringUtils;
 import com.example.rbacdemo.dao.UserDao;
@@ -65,5 +66,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void delete(int userId) {
         userMapper.deleteByPrimaryKey(userId);
+    }
+
+    @Override
+    public void batchDelete(List<Integer> userIdList) {
+        if (ListUtils.isEmpty(userIdList)) return;
+        UserExample example = new UserExample();
+        example.createCriteria().andUserIdIn(userIdList);
+        userMapper.deleteByExample(example);
     }
 }

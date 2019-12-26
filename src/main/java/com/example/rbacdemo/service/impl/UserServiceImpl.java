@@ -6,21 +6,30 @@ import com.example.rbacdemo.common.util.RandomUtils;
 import com.example.rbacdemo.common.util.RegexUtils;
 import com.example.rbacdemo.common.util.StringUtils;
 import com.example.rbacdemo.entity.User;
+import com.example.rbacdemo.service.UserRoleService;
 import com.example.rbacdemo.service.UserService;
 import com.example.rbacdemo.common.PageData;
 import com.example.rbacdemo.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Repository
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
-
     @Autowired
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    private UserRoleService userRoleService;
+    @Autowired
+    public void setUserRoleService(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 
     @Override
@@ -60,14 +69,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Result<User> update(int userId, String account, String userName, String password) {
+    public Result<User> modify(int userId, String account, String userName, String password) {
         if (!RegexUtils.checkAccount(account)) return Result.error("账号以字母、下划线开头，只允许字母、数字和下划线，最少6位长度");
         if (StringUtils.isBlank(userName)) return Result.error("用户名不能为空");
         if (!RegexUtils.checkPassword(password)) return Result.error("密码只允许字母、数字和下划线，最少6位长度");
         User user = userDao.get(userId);
-        if (user == null) return Result.error("用户不存在");
+        if (user == null) return Result.error("该用户不存在");
         if (!user.getAccount().equals(account)) {
-            if (this.existAccount(account)) return Result.error("该账号已被使用");
+            if (userDao.existAccount(account)) return Result.error("该账号已被使用");
             user.setAccount(account);
         }
         user.setUserName(userName);
@@ -78,9 +87,21 @@ public class UserServiceImpl implements UserService {
         return Result.success(user);
     }
 
+    @Transactional
     @Override
     public Result delete(int userId) {
         userDao.delete(userId);
+        userRoleService.deleteByUserId(userId);
+        return Result.success();
+    }
+
+    @Transactional
+    @Override
+    public Result batchDelete(Integer[] userIds) {
+        if (userIds == null || userIds.length == 0) return Result.error("userIds不能为空");
+        List<Integer> userIdList = Arrays.asList(userIds);
+        userDao.batchDelete(userIdList);
+        userRoleService.deleteByUserIdIn(userIdList);
         return Result.success();
     }
 

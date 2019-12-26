@@ -36,6 +36,10 @@ public class Result<T> {
         this.msg = msg;
     }
 
+    public boolean isSuccess() {
+        return this.code == Code.SUCCESS;
+    }
+
     public static <T> Result<T> success() {
         return new Result<T>(Code.SUCCESS, null, Message.SUCCESS);
     }
