@@ -2,6 +2,7 @@ package com.example.rbacdemo.web.controller;
 
 import com.example.rbacdemo.common.Result;
 import com.example.rbacdemo.entity.Role;
+import com.example.rbacdemo.service.RolePermissionService;
 import com.example.rbacdemo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +15,15 @@ import java.util.List;
 @RequestMapping("/role")
 public class RoleController {
     private RoleService roleService;
-
     @Autowired
     public void setRoleService(RoleService roleService) {
         this.roleService = roleService;
+    }
+
+    private RolePermissionService rolePermissionService;
+    @Autowired
+    public void setRolePermissionService(RolePermissionService rolePermissionService) {
+        this.rolePermissionService = rolePermissionService;
     }
 
     @PostMapping("/list")
@@ -40,4 +46,10 @@ public class RoleController {
     public Result delete(int roleId) {
         return roleService.delete(roleId);
     }
+
+    @PostMapping("/saveRolePermission")
+    public Result saveRolePermission(int roleId, Integer[] permissionIds) {
+        return rolePermissionService.save(roleId, permissionIds);
+    }
 }
+

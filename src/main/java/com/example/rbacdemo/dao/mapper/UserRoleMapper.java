@@ -3,7 +3,10 @@ package com.example.rbacdemo.dao.mapper;
 import com.example.rbacdemo.entity.UserRole;
 import com.example.rbacdemo.entity.UserRoleExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -29,4 +32,6 @@ public interface UserRoleMapper {
     int updateByPrimaryKeySelective(UserRole record);
 
     int updateByPrimaryKey(UserRole record);
+
+    int batchInsert(List<UserRole> list);
 }

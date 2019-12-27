@@ -36,7 +36,7 @@ public class PermissionDaoImpl implements PermissionDao {
         }
         long totalCount = permissionMapper.countByExample(example);
         example.setOffset(PageUtils.getOffset(pageNum, pageSize));
-        example.setOffset(pageSize);
+        example.setLimit(pageSize);
         List<Permission> list = permissionMapper.selectByExample(example);
         return new PageData<>(totalCount, list);
     }
