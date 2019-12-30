@@ -21,16 +21,8 @@ import java.util.List;
 @Repository
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
-    @Autowired
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
     private UserRoleService userRoleService;
-    @Autowired
-    public void setUserRoleService(UserRoleService userRoleService) {
-        this.userRoleService = userRoleService;
-    }
+
 
     @Override
     public PageData<User> find(String account, String userName, Date bCreateTime, Date eCreateTime, int pageNum, int pageSize) {
@@ -107,5 +99,15 @@ public class UserServiceImpl implements UserService {
 
     private String getEncryptPassword(String password, String pwdSalt) {
         return AlgorithmUtils.md5Encrypt(password + pwdSalt);
+    }
+
+    /* Setters */
+    @Autowired
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+    @Autowired
+    public void setUserRoleService(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 }

@@ -9,11 +9,13 @@ public interface RolePermissionDao {
 
     List<Integer> findPermissionIdByRoleId(int roleId);
 
+    List<RolePermission> findByRoleIdIn(List<Integer> roleIdList);
+
+    List<Integer> findPermissionIdByRoleIdIn(List<Integer> roleIdList);
+
     void deleteByRoleId(int roleId);
 
     void deleteByPermissionId(int permissionId);
-
-
 
     void deleteByUserIdAndRoleIdIn(int roleId, List<Integer> permissionIdList);
 

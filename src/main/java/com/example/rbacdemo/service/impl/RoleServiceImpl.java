@@ -16,22 +16,8 @@ import java.util.List;
 @Repository
 public class RoleServiceImpl implements RoleService {
     private RoleDao roleDao;
-    @Autowired
-    public void setRoleDao(RoleDao roleDao) {
-        this.roleDao = roleDao;
-    }
-
     private RolePermissionService rolePermissionService;
-    @Autowired
-    public void setRolePermissionService(RolePermissionService rolePermissionService) {
-        this.rolePermissionService = rolePermissionService;
-    }
-
     private UserRoleService userRoleService;
-    @Autowired
-    public void setUserRoleService(UserRoleService userRoleService) {
-        this.userRoleService = userRoleService;
-    }
 
     @Override
     public List<Role> findAll() {
@@ -72,5 +58,19 @@ public class RoleServiceImpl implements RoleService {
         rolePermissionService.deleteByRoleId(roleId);
         userRoleService.deleteByRoleId(roleId);
         return Result.success();
+    }
+
+    /* Setters */
+    @Autowired
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
+    @Autowired
+    public void setRolePermissionService(RolePermissionService rolePermissionService) {
+        this.rolePermissionService = rolePermissionService;
+    }
+    @Autowired
+    public void setUserRoleService(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.rbacdemo.dao.impl;
 
 import com.example.rbacdemo.common.PageData;
+import com.example.rbacdemo.common.util.ListUtils;
 import com.example.rbacdemo.common.util.PageUtils;
 import com.example.rbacdemo.common.util.StringUtils;
 import com.example.rbacdemo.dao.PermissionDao;
@@ -10,6 +11,7 @@ import com.example.rbacdemo.entity.PermissionExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -19,6 +21,11 @@ public class PermissionDaoImpl implements PermissionDao {
     @Autowired
     public void setPermissionMapper(PermissionMapper permissionMapper) {
         this.permissionMapper = permissionMapper;
+    }
+
+    @Override
+    public List<Permission> findAll() {
+        return permissionMapper.selectByExample(new PermissionExample());
     }
 
     @Override
@@ -39,6 +46,14 @@ public class PermissionDaoImpl implements PermissionDao {
         example.setLimit(pageSize);
         List<Permission> list = permissionMapper.selectByExample(example);
         return new PageData<>(totalCount, list);
+    }
+
+    @Override
+    public List<Permission> findByPermissionIdIn(List<Integer> permissionIdList) {
+        if (ListUtils.isEmpty(permissionIdList)) return new ArrayList<>();
+        PermissionExample example = new PermissionExample();
+        example.createCriteria().andPermissionIdIn(permissionIdList);
+        return permissionMapper.selectByExample(example);
     }
 
     @Override

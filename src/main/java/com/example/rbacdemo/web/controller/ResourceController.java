@@ -15,11 +15,6 @@ import java.util.List;
 public class ResourceController {
     private ResourceService resourceService;
 
-    @Autowired
-    public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-    }
-
     @PostMapping("/list")
     public Result list() {
         List<Resource> list = resourceService.findAll();
@@ -39,5 +34,12 @@ public class ResourceController {
     @PostMapping("/delete")
     public Result delete(int resourceId) {
         return resourceService.delete(resourceId);
+    }
+
+
+    /* Setters */
+    @Autowired
+    public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
     }
 }

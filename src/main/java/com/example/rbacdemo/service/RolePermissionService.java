@@ -5,6 +5,11 @@ import com.example.rbacdemo.common.Result;
 import java.util.List;
 
 public interface RolePermissionService {
+
+    List<Integer> findPermissionIdByRoleId(int roleId);
+
+    List<Integer> findPermissionIdByRoleIdIn(List<Integer> roleIdList);
+
     void deleteByRoleId(int roleId);
 
     void deleteByPermissionId(int permissionId);

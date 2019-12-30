@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,8 +29,23 @@ public class RolePermissionDaoImpl implements RolePermissionDao {
     }
 
     @Override
+    public List<RolePermission> findByRoleIdIn(List<Integer> roleIdList) {
+        if (ListUtils.isEmpty(roleIdList)) return new ArrayList<>();
+        RolePermissionExample example = new RolePermissionExample();
+        example.createCriteria().andRoleIdIn(roleIdList);
+        return rolePermissionMapper.selectByExample(example);
+    }
+
+    @Override
     public List<Integer> findPermissionIdByRoleId(int roleId) {
         List<RolePermission> list = this.findByRoleId(roleId);
+        List<Integer> permissionIdList = list.stream().map(RolePermission::getPermissionId).collect(Collectors.toList());
+        return permissionIdList;
+    }
+
+    @Override
+    public List<Integer> findPermissionIdByRoleIdIn(List<Integer> roleIdList) {
+        List<RolePermission> list = this.findByRoleIdIn(roleIdList);
         List<Integer> permissionIdList = list.stream().map(RolePermission::getPermissionId).collect(Collectors.toList());
         return permissionIdList;
     }

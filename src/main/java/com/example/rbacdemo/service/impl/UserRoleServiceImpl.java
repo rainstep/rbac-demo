@@ -16,10 +16,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
     private UserRoleDao userRoleDao;
-    @Autowired
-    public void setUserRoleDao(UserRoleDao userRoleDao) {
-        this.userRoleDao = userRoleDao;
-    }
+
 
     @Override
     public List<Integer> findRoleIdByUserId(int userId) {
@@ -68,5 +65,11 @@ public class UserRoleServiceImpl implements UserRoleService {
             list.add(userRole);
         }
         userRoleDao.batchInsert(list);
+    }
+
+    /* Setters */
+    @Autowired
+    public void setUserRoleDao(UserRoleDao userRoleDao) {
+        this.userRoleDao = userRoleDao;
     }
 }

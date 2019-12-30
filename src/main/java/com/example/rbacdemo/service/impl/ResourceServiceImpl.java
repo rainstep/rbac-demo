@@ -16,15 +16,6 @@ public class ResourceServiceImpl implements ResourceService {
     private ResourceDao resourceDao;
     private PermissionService permissionService;
 
-    @Autowired
-    public void setResourceDao(ResourceDao resourceDao) {
-        this.resourceDao = resourceDao;
-    }
-    @Autowired
-    public void setPermissionService(PermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
-
     @Override
     public List<Resource> findAll() {
         return resourceDao.findAll();
@@ -57,5 +48,15 @@ public class ResourceServiceImpl implements ResourceService {
         if (existResourceId) return Result.error("该资源下存在对应权限，无法删除");
         resourceDao.delete(resourceId);
         return Result.success();
+    }
+
+    /* Setters */
+    @Autowired
+    public void setResourceDao(ResourceDao resourceDao) {
+        this.resourceDao = resourceDao;
+    }
+    @Autowired
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
     }
 }

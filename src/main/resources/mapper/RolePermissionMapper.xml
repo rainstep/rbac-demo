@@ -185,8 +185,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <insert id="batchInsert" keyProperty="id" useGeneratedKeys="true" parameterType="com.example.rbacdemo.entity.UserRole">
-    insert into user_role(role_id, permission_id) values
+  <insert id="batchInsert" keyProperty="id" useGeneratedKeys="true" parameterType="com.example.rbacdemo.entity.RolePermission">
+    insert into role_permission(role_id, permission_id) values
     <foreach collection="list" item="item" separator=",">
       (#{item.roleId,jdbcType=INTEGER}, #{item.permissionId,jdbcType=INTEGER})
     </foreach>

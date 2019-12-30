@@ -14,9 +14,16 @@ import java.util.List;
 @Repository
 public class RolePermissionServiceImpl implements RolePermissionService {
     private RolePermissionDao rolePermissionDao;
-    @Autowired
-    public void setRolePermissionDao(RolePermissionDao rolePermissionDao) {
-        this.rolePermissionDao = rolePermissionDao;
+
+    @Override
+    public List<Integer> findPermissionIdByRoleId(int roleId) {
+        return rolePermissionDao.findPermissionIdByRoleId(roleId);
+    }
+
+    @Override
+    public List<Integer> findPermissionIdByRoleIdIn(List<Integer> roleIdList) {
+        if (ListUtils.isEmpty(roleIdList)) return new ArrayList<>();
+        return rolePermissionDao.findPermissionIdByRoleIdIn(roleIdList);
     }
 
     @Override
@@ -53,9 +60,17 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         for (Integer permissionId : permissionIdList) {
             RolePermission rolePermission = new RolePermission();
             rolePermission.setRoleId(roleId);
-            rolePermission.setRoleId(permissionId);
+            rolePermission.setPermissionId(permissionId);
             list.add(rolePermission);
         }
         rolePermissionDao.batchInsert(list);
+    }
+
+
+
+    /* Setters */
+    @Autowired
+    public void setRolePermissionDao(RolePermissionDao rolePermissionDao) {
+        this.rolePermissionDao = rolePermissionDao;
     }
 }
