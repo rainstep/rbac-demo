@@ -1,28 +1,30 @@
 package com.example.rbacdemo.service.impl;
 
+import com.example.rbacdemo.common.PageData;
 import com.example.rbacdemo.common.Result;
 import com.example.rbacdemo.common.util.AlgorithmUtils;
 import com.example.rbacdemo.common.util.RandomUtils;
 import com.example.rbacdemo.common.util.RegexUtils;
 import com.example.rbacdemo.common.util.StringUtils;
+import com.example.rbacdemo.dao.UserDao;
 import com.example.rbacdemo.entity.User;
 import com.example.rbacdemo.service.UserRoleService;
 import com.example.rbacdemo.service.UserService;
-import com.example.rbacdemo.common.PageData;
-import com.example.rbacdemo.dao.UserDao;
+import com.example.rbacdemo.service.UserTokenService;
+import com.example.rbacdemo.service.model.TokenUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Repository
+@Service
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
     private UserRoleService userRoleService;
-
+    private UserTokenService userTokenService;
 
     @Override
     public PageData<User> find(String account, String userName, Date bCreateTime, Date eCreateTime, int pageNum, int pageSize) {
@@ -97,6 +99,29 @@ public class UserServiceImpl implements UserService {
         return Result.success();
     }
 
+    @Override
+    public Result<TokenUser> accountLogin(String account, String password, Integer appId) {
+        if (StringUtils.isBlank(account)) return Result.error("账号不能为空");
+        if (StringUtils.isBlank(password)) return Result.error("密码不能为空");
+        if (appId == null) return Result.error("appId不能为空");
+        User user = userDao.getByAccount(account);
+        if (user == null) return Result.error("该账号不存在");
+        String encryptPassword = this.getEncryptPassword(password, user.getPwdSalt());
+        if (!user.getPassword().equals(encryptPassword)) return Result.error("密码有误");
+        return userTokenService.login(user, appId);
+    }
+
+    @Override
+    public Result<TokenUser> tokenLogin(String token) {
+        if (StringUtils.isBlank(token)) return Result.error("token不能为空");
+        return userTokenService.tokenLogin(token);
+    }
+
+    @Override
+    public Result logout(String token) {
+        return userTokenService.logout(token);
+    }
+
     private String getEncryptPassword(String password, String pwdSalt) {
         return AlgorithmUtils.md5Encrypt(password + pwdSalt);
     }
@@ -110,4 +135,10 @@ public class UserServiceImpl implements UserService {
     public void setUserRoleService(UserRoleService userRoleService) {
         this.userRoleService = userRoleService;
     }
+    @Autowired
+    public void setUserTokenService(UserTokenService userTokenService) {
+        this.userTokenService = userTokenService;
+    }
+
+
 }

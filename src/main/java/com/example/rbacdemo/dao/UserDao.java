@@ -11,6 +11,8 @@ public interface UserDao {
 
     User get(int userId);
 
+    User getByAccount(String account);
+
     boolean existAccount(String account);
 
     void insert(User user);

@@ -3,14 +3,12 @@ package com.example.rbacdemo.web.controller;
 import com.example.rbacdemo.common.PageData;
 import com.example.rbacdemo.common.Result;
 import com.example.rbacdemo.entity.User;
-import com.example.rbacdemo.service.RoleService;
+import com.example.rbacdemo.service.model.TokenUser;
 import com.example.rbacdemo.service.UserRoleService;
 import com.example.rbacdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -21,11 +19,14 @@ public class UserController {
     private UserService userService;
     private UserRoleService userRoleService;
 
-    @PostMapping("/login")
-    public Result<User> login(String account, String password) {
+    @PostMapping("/accountLogin")
+    public Result<TokenUser> accountLogin(String account, String password, Integer appId) {
+        return userService.accountLogin(account, password, appId);
+    }
 
-
-        return Result.success();
+    @PostMapping("/tokenLogin")
+    public Result<TokenUser> tokenLogin(String token) {
+        return userService.tokenLogin(token);
     }
 
     @PostMapping("/list")
@@ -68,6 +69,11 @@ public class UserController {
         return userRoleService.save(userId, roleIds);
     }
 
+
+    @PostMapping("/logout")
+    public Result logout(@RequestHeader String token) {
+        return userService.logout(token);
+    }
 
     /* Setters */
     @Autowired

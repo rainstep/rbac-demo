@@ -3,6 +3,7 @@ package com.example.rbacdemo.service;
 import com.example.rbacdemo.common.PageData;
 import com.example.rbacdemo.common.Result;
 import com.example.rbacdemo.entity.User;
+import com.example.rbacdemo.service.model.TokenUser;
 
 import java.util.Date;
 
@@ -20,4 +21,10 @@ public interface UserService {
     Result delete(int userId);
 
     Result batchDelete(Integer[] userIds);
+
+    Result<TokenUser> accountLogin(String account, String password, Integer appId);
+
+    Result<TokenUser> tokenLogin(String token);
+
+    Result logout(String token);
 }

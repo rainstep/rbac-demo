@@ -46,6 +46,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User getByAccount(String account) {
+        UserExample example = new UserExample();
+        example.createCriteria().andAccountEqualTo(account);
+        List<User> list = userMapper.selectByExample(example);
+        if (list.size() > 0) return list.get(0);
+        return null;
+    }
+
+    @Override
     public boolean existAccount(String account) {
         UserExample example = new UserExample();
         example.createCriteria().andAccountEqualTo(account);
@@ -75,4 +84,5 @@ public class UserDaoImpl implements UserDao {
         example.createCriteria().andUserIdIn(userIdList);
         userMapper.deleteByExample(example);
     }
+
 }

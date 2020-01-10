@@ -21,3 +21,9 @@ mybatis:
     map-underscore-to-camel-case: true # 下划线转驼峰
 
 
+rbac:
+  user-token:
+    expired-seconds: 1800 # 过期时间30秒
+    max-expired-sendconds: 86400
+
+

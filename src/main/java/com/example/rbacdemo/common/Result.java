@@ -64,21 +64,21 @@ public class Result<T> {
         return new Result(code, null, msg);
     }
 
-    public static Result unauthenticated() {
-        return new Result(Code.UNAUTHENTICATED, null, Message.UNAUTHENTICATED);
+    public static Result tokenExpired() {
+        return new Result(Code.TOKEN_EXPIRED, null, Message.TOKEN_EXPIRED);
     }
 
     public static class Code {
         public static final int SUCCESS = 1;
         public static final int ERROR = 0;
-        public static final int UNAUTHENTICATED = 401;
+        public static final int TOKEN_EXPIRED = 401;
         public static final int UNAUTHORIZED = 403;
     }
 
     public static class Message {
         public static final String SUCCESS = "success";
         public static final String ERROR = "error";
-        public static final String UNAUTHENTICATED = "未认证";
+        public static final String TOKEN_EXPIRED = "token已过期";
         public static final String UNAUTHORIZED = "未授权";
     }
 
