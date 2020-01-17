@@ -13,7 +13,7 @@ public interface UserTokenService {
 
     TokenUser getUser(String token);
 
-    Result check(String token);
+    Result<TokenUser> check(String token);
 
     void refresh(String token);
 

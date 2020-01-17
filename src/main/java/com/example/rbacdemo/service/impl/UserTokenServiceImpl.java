@@ -64,14 +64,14 @@ public class UserTokenServiceImpl implements UserTokenService {
     }
 
     @Override
-    public Result check(String encryptedToken) {
+    public Result<TokenUser> check(String encryptedToken) {
         try {
             if (StringUtils.isBlank(encryptedToken)) return Result.tokenExpired();
             UserToken userToken = UserToken.getInstance(encryptedToken);
             if (userToken == null) return Result.error("token无效");
             String tokenValue = redisDao.getString(userToken.getToken());
             if (tokenValue == null)  return Result.tokenExpired();
-            return Result.success();
+            return Result.success(JacksonUtils.parse(tokenValue, TokenUser.class));
         } catch (TokenException e) {
             return Result.error(e.getMessage());
         }
